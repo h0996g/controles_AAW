@@ -11,7 +11,8 @@ router.get('/notes', noteController.getAllNotes);
 router.get('/ensignant', enseignantController.getAllEnsignant);
 
 // Get user by ID
-router.get('/users/:id', userController.getUserById);
+// router.get('/users/:id', userController.getUserById);
+router.get('/users/:id/:module', userController.getUserModule);
 
 // Create new user
 router.post('/users', userController.createUser);

@@ -1,5 +1,36 @@
 const User = require('../models/etudient');
 const Note = require('../models/note');
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId
+
+
+
+exports.getUserModule = async (req, res) => {
+  try {
+    const note = await Note.find({ userowner: ObjectId(req.params.id) });
+    // if (!user) {
+    // res.status(404).json({ error: 'User not found' });
+    // } else {
+    // const _mm = req.params.module
+    // let mod=note;
+    // console.log('sss')
+    // console.log(mm)
+    res.json(note[0][req.params.module]);
+    // }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+
+
+
+
+
+
+
 
 
 exports.getAllUsers = async (req, res) => {
