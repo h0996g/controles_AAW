@@ -25,8 +25,8 @@ exports.createUser = async (req, res) => {
     const { name, email } = req.body;
     const user = new User({ name, email });
     await user.save();
-    const { moy, math, physique, algo, userowner } = req.body;
-    const note = new Note({ moy, userowner, math, physique, algo });
+    const { moy, math, physique, algo } = req.body;
+    const note = new Note({ moy, userowner: user.id, math, physique, algo });
     await note.save();
     res.status(201).json(user);
 
