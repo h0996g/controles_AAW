@@ -1,4 +1,6 @@
 const User = require('../models/etudient');
+const Note = require('../models/note');
+
 
 exports.getAllUsers = async (req, res) => {
   const users = await User.find();
@@ -23,7 +25,11 @@ exports.createUser = async (req, res) => {
     const { name, email } = req.body;
     const user = new User({ name, email });
     await user.save();
+    const { moy, math, physique, algo, userowner } = req.body;
+    const note = new Note({ moy, userowner, math, physique, algo });
+    await note.save();
     res.status(201).json(user);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

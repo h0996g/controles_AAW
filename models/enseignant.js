@@ -5,10 +5,10 @@ const enseignant = new mongoose.Schema({
         type: String,
         required: true,
     },
-    email: {
+    module: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
     },
 });
 

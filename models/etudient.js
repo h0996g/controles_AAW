@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+
+
 const etudientSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -11,6 +13,7 @@ const etudientSchema = new mongoose.Schema({
     unique: true,
   },
 });
+
 
 const Etudient = mongoose.model('Etudient', etudientSchema);
 

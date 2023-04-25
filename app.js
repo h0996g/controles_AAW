@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Connexion à la base de données MongoDB
+mongoose.set('strictQuery', true);
 
 mongoose.connect('mongodb://127.0.0.1:27017/controles', { useNewUrlParser: true })
   .then(() => {

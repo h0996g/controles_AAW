@@ -8,6 +8,7 @@ const noteController = require('../controllers/noteController');
 // Get all users
 router.get('/users', userController.getAllUsers);
 router.get('/notes', noteController.getAllNotes);
+router.get('/ensignant', enseignantController.getAllEnsignant);
 
 // Get user by ID
 router.get('/users/:id', userController.getUserById);
@@ -15,6 +16,8 @@ router.get('/users/:id', userController.getUserById);
 // Create new user
 router.post('/users', userController.createUser);
 router.post('/note', noteController.createNote);
+router.post('/ensignant', enseignantController.createEnsignant);
+
 
 // Update user
 router.put('/users/:id', userController.updateUser);
