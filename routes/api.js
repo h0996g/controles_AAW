@@ -22,6 +22,7 @@ router.post('/ensignant', enseignantController.createEnsignant);
 
 // Update user
 router.put('/users/:id', userController.updateUser);
+router.put('/users/:id/:module', enseignantController.updateNote);
 
 // Delete user
 router.delete('/users/:id', userController.deleteUser);
