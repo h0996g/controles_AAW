@@ -15,16 +15,16 @@ router.get('/ensignant', enseignantController.getAllEnsignant);
 router.get('/users/:id/:module', userController.getUserModule);
 
 // Create new user
-router.post('/users', userController.createUser);
-router.post('/note', noteController.createNote);
+router.post('/addUser', responsableController.createUser);
+router.post('/addnote', enseignantController.createNote);
 router.post('/ensignant', enseignantController.createEnsignant);
 
 
 // Update user
-router.put('/users/:id', userController.updateUser);
+router.put('/updateUser/:id', responsableController.updateUser);
 router.put('/users/:id/:module', enseignantController.updateNote);
 
 // Delete user
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/deleteUser/:id', responsableController.deleteUser);
 
 module.exports = router;
