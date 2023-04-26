@@ -16,7 +16,9 @@ router.get('/users/:id/:module', userController.getUserModule);
 
 // Create new user
 router.post('/addUser', responsableController.createUser);
+// ! raditha fl update tol 
 router.post('/addnote', enseignantController.createNote);
+
 router.post('/ensignant', enseignantController.createEnsignant);
 
 
