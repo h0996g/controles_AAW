@@ -1,4 +1,6 @@
-const User = require('../models/etudient');
+// const Reclamation = require('../models/etudient');
+const Reclamation = require('../models/reclamation');
+
 const Note = require('../models/note');
 const mongoose = require('mongoose');
 
@@ -16,6 +18,18 @@ exports.getUserModule = async (req, res) => {
   }
 };
 
+exports.createReclamation = async (req, res) => {
+  try {
+    const { text, module, userowner, done } = req.body;
+    const reclamation = new Reclamation({ text, module, userowner, done });
+    await reclamation.save();
+    res.status(201).json(reclamation);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 
 
@@ -27,13 +41,13 @@ exports.getUserModule = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
-  const users = await User.find();
+  const users = await Reclamation.find();
   res.json(users);
 };
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await Reclamation.findById(req.params.id);
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {

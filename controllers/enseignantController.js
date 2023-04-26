@@ -1,6 +1,8 @@
 const Enseignant = require('../models/enseignant');
 const Note = require('../models/note');
 const mongoose = require('mongoose');
+const Reclamation = require('../models/reclamation');
+
 const ObjectId = mongoose.Types.ObjectId
 
 
@@ -40,7 +42,15 @@ exports.updateNote = async (req, res) => {
     }
 };
 
+exports.consultReclamationModule = async (req, res) => {
+    try {
+        const reclamation = await Reclamation.find({ module: req.params.module });
 
+        res.json(reclamation);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
 
 
