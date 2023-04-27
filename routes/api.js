@@ -6,6 +6,15 @@ const responsableController = require('../controllers/responsableController');
 const noteController = require('../controllers/noteController');
 const reclamationController = require('../controllers/reclamationController');
 
+
+router.post("/registerEtudient", responsableController.registerEtudient);
+
+router.post("/loginEtudient", userController.loginEtudient);
+
+
+
+
+
 // Get all users
 router.get('/users', userController.getAllUsers);
 router.get('/allNotes', responsableController.getAllNotes);
@@ -17,7 +26,7 @@ router.get('/consultReclamationModule/:module', enseignantController.consultRecl
 router.get('/users/:id/:module', userController.getUserModule);
 
 // Create new user
-router.post('/addUser', responsableController.createUser);
+// router.post('/addUser', responsableController.createUser);
 // ! raditha fl update tol 
 // router.post('/addnote', enseignantController.createNote);
 
