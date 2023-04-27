@@ -22,13 +22,13 @@ exports.loginEnseignant = async (req, res, next) => {
         }
         let enseignant = await EnseignantServices.checkEnseignant(email);
         if (!enseignant) {
-            throw new Error('User does not exist');
+            throw new Error('Enseignant does not exist');
         }
 
         const isPasswordCorrect = await enseignant.comparePassword(password);
 
         if (isPasswordCorrect === false) {
-            throw new Error(`Username or Password does not match`);
+            throw new Error(`Enseignant Name or Password does not match`);
         }
 
 
@@ -57,7 +57,7 @@ exports.registerEnseignant = async (req, res, next) => {
         const { email, password, name, phone, image, module } = req.body;
         const duplicate = await EnseignantServices.getEnseignantByEmail(email);
         if (duplicate) {
-            throw new Error(`UserName ${email}, Already Registered`)
+            throw new Error(`Enseignant Name ${email}, Already Registered`)
         }
 
         const response = await EnseignantServices.registerEnseignant(email, password, name, phone, image, module);
@@ -67,7 +67,7 @@ exports.registerEnseignant = async (req, res, next) => {
 
 
         const token = await EnseignantServices.generateAccessToken(tokenData, "secret", "1h")
-        res.json({ status: true, message: 'User registered successfully', token: token, id: response._id, module: response.module });
+        res.json({ status: true, message: 'Enseignant registered successfully', token: token, id: response._id, module: response.module });
 
 
     } catch (err) {

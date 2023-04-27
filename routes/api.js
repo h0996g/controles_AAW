@@ -13,6 +13,9 @@ router.post("/loginEtudient", userController.loginEtudient);
 router.post("/registerEnseignant", enseignantController.registerEnseignant);
 router.post("/loginEnseignant", enseignantController.loginEnseignant);
 
+router.post("/loginResponsable", responsableController.loginResponsable);
+router.post("/registerResponsable", responsableController.registerResponsable);
+
 
 
 
