@@ -2,8 +2,88 @@ const Enseignant = require('../models/enseignant');
 const Note = require('../models/note');
 const mongoose = require('mongoose');
 const Reclamation = require('../models/reclamation');
+// const EnseignantServices = require('../services/enseignant.service');
+const EnseignantServices = require('../services/enseignant.service');
+const { response } = require('express');
+
 
 const ObjectId = mongoose.Types.ObjectId
+
+
+
+
+exports.loginEnseignant = async (req, res, next) => {
+    try {
+
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            throw new Error('Parameter are not correct');
+        }
+        let enseignant = await EnseignantServices.checkEnseignant(email);
+        if (!enseignant) {
+            throw new Error('User does not exist');
+        }
+
+        const isPasswordCorrect = await enseignant.comparePassword(password);
+
+        if (isPasswordCorrect === false) {
+            throw new Error(`Username or Password does not match`);
+        }
+
+
+
+        let tokenData;
+        tokenData = { _id: enseignant._id, email: enseignant.email, module: enseignant.module };
+
+
+        const token = await EnseignantServices.generateAccessToken(tokenData, "secret", "1h")
+
+        res.status(200).json({
+            status: true, success: "sendData", token: token,
+            module: enseignant.module
+        });
+    } catch (error) {
+        console.log(error, 'err---->');
+        next(error);
+    }
+}
+
+
+
+exports.registerEnseignant = async (req, res, next) => {
+    try {
+        console.log("---req body---", req.body);
+        const { email, password, name, phone, image, module } = req.body;
+        const duplicate = await EnseignantServices.getEnseignantByEmail(email);
+        if (duplicate) {
+            throw new Error(`UserName ${email}, Already Registered`)
+        }
+
+        const response = await EnseignantServices.registerEnseignant(email, password, name, phone, image, module);
+
+        let tokenData;
+        tokenData = { _id: response._id, email: email, module: response.module };
+
+
+        const token = await EnseignantServices.generateAccessToken(tokenData, "secret", "1h")
+        res.json({ status: true, message: 'User registered successfully', token: token, id: response._id, module: response.module });
+
+
+    } catch (err) {
+        console.log("---> err -->", err);
+        next(err);
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 exports.createNote = async (req, res) => {

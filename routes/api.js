@@ -8,8 +8,10 @@ const reclamationController = require('../controllers/reclamationController');
 
 
 router.post("/registerEtudient", responsableController.registerEtudient);
-
 router.post("/loginEtudient", userController.loginEtudient);
+
+router.post("/registerEnseignant", enseignantController.registerEnseignant);
+router.post("/loginEnseignant", enseignantController.loginEnseignant);
 
 
 
