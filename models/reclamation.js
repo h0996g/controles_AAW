@@ -5,6 +5,12 @@ const ObjectId = mongoose.Types.ObjectId
 
 
 const reclamation = new mongoose.Schema({
+    title: {
+        type: String,
+        // required: true,
+        index: true
+
+    },
     text: {
         type: String,
         // required: true,
@@ -28,8 +34,8 @@ const reclamation = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-});
-reclamation.index({ text: 1, userowner: 1, module: 1 }, { unique: true })
+}, { timestamps: true });
+reclamation.index({ text: 1, userowner: 1, module: 1, title: 1 }, { unique: true })
 
 
 const Reclamation = mongoose.model('Reclamation', reclamation);

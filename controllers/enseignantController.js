@@ -100,21 +100,22 @@ exports.createNote = async (req, res) => {
 
 
 exports.updateNote = async (req, res) => {
-    var c;
+    // var c;
     try {
-        if (req.params.module == 'physique') {
-            const { physique, } = req.body;
-            c = { physique }
+        // if (req.params.module == 'physique') {
+        //     const { physique, } = req.body;
+        //     c = { physique }
 
-        } else if (req.params.module == 'math') {
-            const { math, } = req.body;
-            c = { math }
-        } else if (req.params.module == 'algo') {
-            const { algo, } = req.body;
-            c = { algo }
-        }
+        // } else if (req.params.module == 'math') {
+        //     const { math, } = req.body;
+        //     c = { math }
+        // } else if (req.params.module == 'algo') {
+        //     const { algo, } = req.body;
+        //     c = { algo }
+        // }
+        const { math, physique, algo } = req.body;
 
-        const note = await Note.findOneAndUpdate({ userowner: ObjectId(req.params.id) }, c, { new: true });
+        const note = await Note.findOneAndUpdate({ userowner: ObjectId(req.params.id) }, { math, physique, algo }, { new: true });
         res.json(note);
 
     } catch (err) {

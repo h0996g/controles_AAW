@@ -4,6 +4,7 @@ const UserServices = require('../services/user.service');
 
 
 const Note = require('../models/note');
+const Etudient = require('../models/etudient');
 const mongoose = require('mongoose');
 
 const ObjectId = mongoose.Types.ObjectId
@@ -69,8 +70,8 @@ exports.getUserModule = async (req, res) => {
 
 exports.createReclamation = async (req, res) => {
   try {
-    const { text, module, userowner, done } = req.body;
-    const reclamation = new Reclamation({ text, module, userowner, done });
+    const { text, module, userowner, done, title } = req.body;
+    const reclamation = new Reclamation({ text, module, userowner, done, title });
     await reclamation.save();
     res.status(201).json(reclamation);
 
@@ -90,13 +91,13 @@ exports.createReclamation = async (req, res) => {
 
 
 exports.getAllUsers = async (req, res) => {
-  const users = await Reclamation.find();
+  const users = await Etudient.find();
   res.json(users);
 };
 
 exports.getUserById = async (req, res) => {
   try {
-    const user = await Reclamation.findById(req.params.id);
+    const user = await Etudient.findById(req.params.id);
     if (!user) {
       res.status(404).json({ error: 'User not found' });
     } else {

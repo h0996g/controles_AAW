@@ -1,17 +1,48 @@
 const Responsable = require('../models/responsable');
-// const User = require('../models/etudient');
+const Etudiant = require('../models/etudient');
 const Note = require('../models/note');
 
 const UserServices = require('../services/user.service');
 const Etudient = require('../models/etudient');
 const ResponsableServices = require('../services/responsable.service');
+const mongoose = require('mongoose');
+const Reclamation = require('../models/reclamation');
+
+const ObjectId = mongoose.Types.ObjectId
+
+
+exports.getResponsableDetail = async (req, res) => {
+    try {
+        const responsable = await Responsable.findOne({ _id: ObjectId(req.params.id) });
+
+        res.json(responsable);
+    } catch (err) {
+        console.log('gggggg')
+        res.status(500).json({ error: err.message });
+    }
+};
+
+
+
+
+
+
 
 
 exports.getAllNotes = async (req, res) => {
     const notes = await Note.find().populate('userowner');
     res.json(notes);
 };
+exports.getEtudiantNote = async (req, res) => {
+    try {
+        const note = await Note.findOne({ userowner: ObjectId(req.params.id) }).populate('userowner');
 
+        res.json(note);
+    } catch (err) {
+        console.log('gggggg')
+        res.status(500).json({ error: err.message });
+    }
+};
 
 //! ---------  Etudient--------------------
 exports.registerEtudient = async (req, res, next) => {
@@ -30,6 +61,9 @@ exports.registerEtudient = async (req, res, next) => {
 
 
         const token = await UserServices.generateAccessToken(tokenData, "secret", "1h")
+        const { moy, math, physique, algo } = req.body;
+        const note = new Note({ moy, userowner: response.id, math, physique, algo });
+        await note.save();
         res.json({ status: true, message: 'User registered successfully', token: token, id: response._id });
 
 
@@ -61,6 +95,8 @@ exports.registerResponsable = async (req, res, next) => {
 
 
         const token = await ResponsableServices.generateAccessToken(tokenData, "secret", "1h")
+
+
         res.json({ status: true, message: 'Responsable registered successfully', token: token, id: response._id });
 
 
@@ -104,7 +140,53 @@ exports.loginResponsable = async (req, res, next) => {
 }
 
 
+exports.updateResponsable = async (req, res) => {
+    try {
+        const { name, email, image } = req.body;
+        const responsable = await Responsable.findByIdAndUpdate(req.params.id, { name, email, image }, { new: true });
+        if (!responsable) {
+            res.status(404).json({ error: 'Responsable not found' });
+        } else {
+            res.json(responsable);
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 // !----------------------------------
+
+exports.getAllReclamation = async (req, res) => {
+    const reclamation = await Reclamation.find().populate('userowner');
+    res.json(reclamation);
+};
+
+exports.updateReclamation = async (req, res) => {
+    try {
+
+        const { done } = req.body;
+
+        const reclamation = await Reclamation.findByIdAndUpdate((req.params.id), { done }, { new: true });
+        res.json(reclamation);
+
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+exports.deleteReclamation = async (req, res) => {
+    try {
+        const deletedReclamation = await Reclamation.findByIdAndDelete(req.params.id);
+        if (!deletedReclamation) {
+            res.status(404).json({ error: 'User not found' });
+        } else {
+            res.json(deletedReclamation);
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+
+
 
 
 // exports.createUser = async (req, res) => {
@@ -138,7 +220,7 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        const deletedUser = await Etudiant.findByIdAndDelete(req.params.id);
         if (!deletedUser) {
             res.status(404).json({ error: 'User not found' });
         } else {

@@ -21,7 +21,8 @@ router.post("/registerResponsable", responsableController.registerResponsable);
 
 
 // Get all users
-router.get('/users', userController.getAllUsers);
+router.get('/AllEtudiants', userController.getAllUsers);
+router.get('/AllReclamation', responsableController.getAllReclamation);
 router.get('/allNotes', responsableController.getAllNotes);
 router.get('/ensignant', enseignantController.getAllEnsignant);
 router.get('/consultReclamationModule/:module', enseignantController.consultReclamationModule);
@@ -29,6 +30,8 @@ router.get('/consultReclamationModule/:module', enseignantController.consultRecl
 // Get user by ID
 // router.get('/users/:id', userController.getUserById);
 router.get('/users/:id/:module', userController.getUserModule);
+router.get('/getEtudiantInfo/:id', responsableController.getEtudiantNote);
+router.get('/GETRESPONSABLEDETAIL/:id', responsableController.getResponsableDetail);
 
 // Create new user
 // router.post('/addUser', responsableController.createUser);
@@ -40,10 +43,13 @@ router.post('/addReclamation', userController.createReclamation);
 
 
 // Update user
+router.put('/updateResponsable/:id', responsableController.updateResponsable);
 router.put('/updateUser/:id', responsableController.updateUser);
-router.put('/users/:id/:module', enseignantController.updateNote);
+router.put('/updateEtudiantWtithResponsable/:id', enseignantController.updateNote);  //!na7it module fl path drto ynzad fl body
+router.put('/updateReclamation/:id', responsableController.updateReclamation);  //!na7it module fl path drto ynzad fl body
 
 // Delete user
-router.delete('/deleteUser/:id', responsableController.deleteUser);
+router.delete('/deleteEtudiant/:id', responsableController.deleteUser);
+router.delete('/deleteReclamation/:id', responsableController.deleteReclamation);
 
 module.exports = router;
