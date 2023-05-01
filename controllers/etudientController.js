@@ -50,7 +50,10 @@ exports.loginEtudient = async (req, res, next) => {
 
 
 
-
+exports.getOwnEtudiantReclamation = async (req, res) => {
+  const reclamationById = await Reclamation.find({ userowner: ObjectId(req.params.id) }).populate('userowner');
+  res.json(reclamationById);
+};
 
 
 
@@ -60,7 +63,7 @@ exports.loginEtudient = async (req, res, next) => {
 
 exports.getUserModule = async (req, res) => {
   try {
-    const note = await Note.find({ userowner: ObjectId(req.params.id) });
+    const note = await Note.find({ userowner: ObjectId(req.params.id), module: req.params.module });
 
     res.json(note[0][req.params.module]);
   } catch (err) {

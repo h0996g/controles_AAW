@@ -8,7 +8,7 @@ const reclamationController = require('../controllers/reclamationController');
 
 
 router.post("/registerEtudient", responsableController.registerEtudient);
-router.post("/loginEtudient", userController.loginEtudient);
+router.post("/loginEtudiant", userController.loginEtudient);
 
 router.post("/registerEnseignant", enseignantController.registerEnseignant);
 router.post("/loginEnseignant", enseignantController.loginEnseignant);
@@ -23,13 +23,15 @@ router.post("/registerResponsable", responsableController.registerResponsable);
 // Get all users
 router.get('/AllEtudiants', userController.getAllUsers);
 router.get('/AllReclamation', responsableController.getAllReclamation);
+router.get('/AllReclamationById/:id', userController.getOwnEtudiantReclamation);
+
 router.get('/allNotes', responsableController.getAllNotes);
 router.get('/ensignant', enseignantController.getAllEnsignant);
 router.get('/consultReclamationModule/:module', enseignantController.consultReclamationModule);
 
 // Get user by ID
 // router.get('/users/:id', userController.getUserById);
-router.get('/users/:id/:module', userController.getUserModule);
+router.get('/getModuleUser/:id/:module', userController.getUserModule);
 router.get('/getEtudiantInfo/:id', responsableController.getEtudiantNote);
 router.get('/GETRESPONSABLEDETAIL/:id', responsableController.getResponsableDetail);
 
