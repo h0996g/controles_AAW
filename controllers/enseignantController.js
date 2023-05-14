@@ -1,5 +1,6 @@
 const Enseignant = require('../models/enseignant');
-const Note = require('../models/note');
+const Pv = require('../models/pv');
+const Modulee = require('../models/module');
 const mongoose = require('mongoose');
 const Reclamation = require('../models/reclamation');
 // const EnseignantServices = require('../services/enseignant.service');
@@ -51,7 +52,7 @@ exports.loginEnseignant = async (req, res, next) => {
 
 
 
-exports.registerEnseignant = async (req, res, next) => {
+exports.createTeacher = async (req, res, next) => {
     try {
         console.log("---req body---", req.body);
         const { email, password, name, phone, image, module } = req.body;
@@ -89,7 +90,7 @@ exports.registerEnseignant = async (req, res, next) => {
 exports.createNote = async (req, res) => {
     try {
         const { moy, math, physique, algo, userowner } = req.body;
-        const note = new Note({ moy, userowner, math, physique, algo });
+        const note = new Pv({ moy, userowner, math, physique, algo });
         await note.save();
         res.status(201).json(note);
     } catch (err) {
@@ -99,7 +100,7 @@ exports.createNote = async (req, res) => {
 
 
 
-exports.updateNote = async (req, res) => {
+exports.updateModule = async (req, res) => {
     // var c;
     try {
         // if (req.params.module == 'physique') {
@@ -113,9 +114,9 @@ exports.updateNote = async (req, res) => {
         //     const { algo, } = req.body;
         //     c = { algo }
         // }
-        const { math, physique, algo } = req.body;
+        const { intero, controle, comment } = req.body;
 
-        const note = await Note.findOneAndUpdate({ userowner: ObjectId(req.params.id) }, { math, physique, algo }, { new: true });
+        const note = await Modulee.findOneAndUpdate({ userowner: ObjectId(req.params.id), module: req.params.module }, { intero, controle, comment }, { new: true });
         res.json(note);
 
     } catch (err) {

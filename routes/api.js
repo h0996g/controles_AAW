@@ -3,37 +3,39 @@ const router = express.Router();
 const userController = require('../controllers/etudientController');
 const enseignantController = require('../controllers/enseignantController');
 const responsableController = require('../controllers/responsableController');
-const noteController = require('../controllers/noteController');
+const pvController = require('../controllers/pvController');
 const reclamationController = require('../controllers/reclamationController');
 
+//! li rahom bl 7mar mzlt mabedelthomh 
 
-router.post("/registerEtudient", responsableController.registerEtudient);
-router.post("/loginEtudiant", userController.loginEtudient);
 
-router.post("/registerEnseignant", enseignantController.registerEnseignant);
-router.post("/loginEnseignant", enseignantController.loginEnseignant);
+router.post("/studients", responsableController.createStudent);
+router.post("/loginEtudiant", userController.loginEtudient);  //!
 
-router.post("/loginResponsable", responsableController.loginResponsable);
-router.post("/registerResponsable", responsableController.registerResponsable);
+router.post("/teachers", enseignantController.createTeacher);
+router.post("/loginEnseignant", enseignantController.loginEnseignant); //!
+
+router.post("/loginResponsable", responsableController.loginResponsable); //!
+router.post("/responsibles", responsableController.createResponsible);
 
 
 
 
 
 // Get all users
-router.get('/AllEtudiants', userController.getAllUsers);
-router.get('/AllReclamation', responsableController.getAllReclamation);
-router.get('/AllReclamationById/:id', userController.getOwnEtudiantReclamation);
+router.get('/students', userController.getAllStudent);
+router.get('/reclamations', responsableController.getAllReclamation);
+router.get('/reclamations/:id', userController.getOwnEtudiantReclamation);
 
-router.get('/allNotes', responsableController.getAllNotes);
+router.get('/pvs', responsableController.getAllPv);
 router.get('/ensignant', enseignantController.getAllEnsignant);
 router.get('/consultReclamationModule/:module', enseignantController.consultReclamationModule);
 
 // Get user by ID
 // router.get('/users/:id', userController.getUserById);
-router.get('/getModuleUser/:id/:module', userController.getUserModule);
-router.get('/getEtudiantInfo/:id', responsableController.getEtudiantNote);
-router.get('/GETRESPONSABLEDETAIL/:id', responsableController.getResponsableDetail);
+router.get('/modules/:module/:id', userController.getUserModule);
+router.get('/pvs/:id', responsableController.getEtudiantNote);
+router.get('/responsibles/:id', responsableController.getResponsableDetail);
 
 // Create new user
 // router.post('/addUser', responsableController.createUser);
@@ -41,17 +43,17 @@ router.get('/GETRESPONSABLEDETAIL/:id', responsableController.getResponsableDeta
 // router.post('/addnote', enseignantController.createNote);
 
 router.post('/ensignant', enseignantController.createEnsignant);
-router.post('/addReclamation', userController.createReclamation);
+router.post('/reclamations', userController.createReclamation);
 
 
 // Update user
-router.put('/updateResponsable/:id', responsableController.updateResponsable);
-router.put('/updateUser/:id', responsableController.updateUser);
-router.put('/updateEtudiantWtithResponsable/:id', enseignantController.updateNote);  //!na7it module fl path drto ynzad fl body
-router.put('/updateReclamation/:id', responsableController.updateReclamation);  //!na7it module fl path drto ynzad fl body
+router.put('/responsibles/:id', responsableController.updateResponsible);
+router.put('/students/:id', responsableController.updateStudent);
+router.put('/modules/:id/:module', enseignantController.updateModule);  //!na7it module fl path drto ynzad fl body
+router.put('/reclamations/:id', responsableController.updateReclamation);  //!na7it module fl path drto ynzad fl body
 
 // Delete user
-router.delete('/deleteEtudiant/:id', responsableController.deleteUser);
-router.delete('/deleteReclamation/:id', responsableController.deleteReclamation);
+router.delete('/students/:id', responsableController.deleteUser);
+router.delete('/reclamations/:id', responsableController.deleteReclamation);
 
 module.exports = router;

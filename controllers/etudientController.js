@@ -3,7 +3,8 @@ const Reclamation = require('../models/reclamation');
 const UserServices = require('../services/user.service');
 
 
-const Note = require('../models/note');
+const Pv = require('../models/pv');
+const Modulee = require('../models/module');
 const Etudient = require('../models/etudient');
 const mongoose = require('mongoose');
 
@@ -37,7 +38,7 @@ exports.loginEtudient = async (req, res, next) => {
 
     const token = await UserServices.generateAccessToken(tokenData, "secret", "1h")
 
-    res.status(200).json({ status: true, success: "sendData", token: token });
+    res.status(200).json({ status: true, success: "sendData", token: token, name: user.name, email: user.email });
   } catch (error) {
     console.log(error, 'err---->');
     next(error);
@@ -63,9 +64,9 @@ exports.getOwnEtudiantReclamation = async (req, res) => {
 
 exports.getUserModule = async (req, res) => {
   try {
-    const note = await Note.find({ userowner: ObjectId(req.params.id), module: req.params.module });
-
-    res.json(note[0][req.params.module]);
+    const module = await Modulee.find({ userowner: ObjectId(req.params.id), module: req.params.module });
+    console.log(module);
+    res.json(module);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -93,7 +94,7 @@ exports.createReclamation = async (req, res) => {
 
 
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllStudent = async (req, res) => {
   const users = await Etudient.find();
   res.json(users);
 };

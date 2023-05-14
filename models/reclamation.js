@@ -32,7 +32,8 @@ const reclamation = new mongoose.Schema({
     },
     done: {
         type: Boolean,
-        default: false
+        default: false,
+        index: false
     }
 }, { timestamps: true });
 reclamation.index({ text: 1, userowner: 1, module: 1, title: 1 }, { unique: true })

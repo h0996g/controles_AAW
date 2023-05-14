@@ -1,6 +1,6 @@
 const Responsable = require('../models/responsable');
 const Etudiant = require('../models/etudient');
-const Note = require('../models/note');
+const Pv = require('../models/pv');
 
 const UserServices = require('../services/user.service');
 const Etudient = require('../models/etudient');
@@ -29,23 +29,22 @@ exports.getResponsableDetail = async (req, res) => {
 
 
 
-exports.getAllNotes = async (req, res) => {
-    const notes = await Note.find().populate('userowner');
+exports.getAllPv = async (req, res) => {
+    const notes = await Pv.find().populate('userowner').populate('algo').populate('physique').populate('math');
     res.json(notes);
 };
 exports.getEtudiantNote = async (req, res) => {
     try {
-        const note = await Note.findOne({ userowner: ObjectId(req.params.id) }).populate('userowner');
+        const note = await Pv.findOne({ userowner: ObjectId(req.params.id) }).populate('userowner').populate('algo').populate('physique').populate('math');
 
         res.json(note);
     } catch (err) {
-        console.log('gggggg')
         res.status(500).json({ error: err.message });
     }
 };
 
 //! ---------  Etudient--------------------
-exports.registerEtudient = async (req, res, next) => {
+exports.createStudent = async (req, res, next) => {
     try {
         console.log("---req body---", req.body);
         const { email, password, name, phone, image } = req.body;
@@ -61,9 +60,9 @@ exports.registerEtudient = async (req, res, next) => {
 
 
         const token = await UserServices.generateAccessToken(tokenData, "secret", "1h")
-        const { moy, math, physique, algo } = req.body;
-        const note = new Note({ moy, userowner: response.id, math, physique, algo });
-        await note.save();
+        // const { moy, math, physique, algo } = req.body;
+        // const note = new Note({ moy, userowner: response.id, math, physique, algo });
+        // await note.save();
         res.json({ status: true, message: 'User registered successfully', token: token, id: response._id });
 
 
@@ -79,7 +78,7 @@ exports.registerEtudient = async (req, res, next) => {
 
 
 //! ---------  Responsable--------------------
-exports.registerResponsable = async (req, res, next) => {
+exports.createResponsible = async (req, res, next) => {
     try {
         console.log("---req body---", req.body);
         const { email, password, name, phone, image } = req.body;
@@ -140,7 +139,7 @@ exports.loginResponsable = async (req, res, next) => {
 }
 
 
-exports.updateResponsable = async (req, res) => {
+exports.updateResponsible = async (req, res) => {
     try {
         const { name, email, image } = req.body;
         const responsable = await Responsable.findByIdAndUpdate(req.params.id, { name, email, image }, { new: true });
@@ -204,7 +203,7 @@ exports.deleteReclamation = async (req, res) => {
 //     }
 // };
 
-exports.updateUser = async (req, res) => {
+exports.updateStudent = async (req, res) => {
     try {
         const { name, email, image } = req.body;
         const user = await Etudient.findByIdAndUpdate(req.params.id, { name, email, image }, { new: true });

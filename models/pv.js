@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId
+const Modulee = require('./module');
+
 
 const note = new mongoose.Schema({
 
     math: {
-        type: Number,
-        default: 0,
+        // type: Number,
+        type: ObjectId,
+        ref: 'Modulee',
+        // default: 0,
 
         // required: true,
         index: true,
@@ -14,8 +18,11 @@ const note = new mongoose.Schema({
 
     },
     physique: {
-        type: Number,
-        default: 0,
+        // type: Number,
+        type: ObjectId,
+        ref: 'Modulee',
+
+        // default: 0,
 
         // required: true,
         index: true,
@@ -24,9 +31,12 @@ const note = new mongoose.Schema({
 
     },
     algo: {
-        type: Number,
+        // type: Number,
+        type: ObjectId,
+        ref: 'Modulee',
+
         // required: true,
-        default: 0,
+        // default: 0,
         index: true,
 
         // unique: true,
@@ -45,6 +55,7 @@ const note = new mongoose.Schema({
         index: true
 
     },
+    // moduleowner: [Modulee]
 
 }, {
     toJSON: { virtuals: true }
@@ -54,7 +65,7 @@ const note = new mongoose.Schema({
 // note.index({ physique: 1, userowner: 1 }, { unique: true })
 // note.index({ algo: 1, userowner: 1 }, { unique: true })
 note.virtual("moy").get(function () {
-    return (this.algo + this.math + this.physique) / 3
+    return (this.math['moy'] + this.algo['moy'] + this.physique['moy']) / 3
 })
 // note.pre('save', function (next) {
 //     this.moy = (this.algo + this.math + this.physique) / 3
@@ -81,6 +92,6 @@ note.virtual("moy").get(function () {
 //     // console.log(data.algo)
 
 // });
-const Note = mongoose.model('Note', note);
+const Pv = mongoose.model('Pv', note);
 
-module.exports = Note;
+module.exports = Pv;
