@@ -3,8 +3,8 @@ const router = express.Router();
 const userController = require('../controllers/etudientController');
 const enseignantController = require('../controllers/enseignantController');
 const responsableController = require('../controllers/responsableController');
-const pvController = require('../controllers/pvController');
-const reclamationController = require('../controllers/reclamationController');
+// const pvController = require('../controllers/pvController');
+// const reclamationController = require('../controllers/reclamationController');
 
 //! li rahom bl 7mar mzlt mabedelthomh 
 

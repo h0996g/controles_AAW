@@ -52,7 +52,7 @@ exports.loginEtudient = async (req, res, next) => {
 
 
 exports.getOwnEtudiantReclamation = async (req, res) => {
-  const reclamationById = await Reclamation.find({ userowner: ObjectId(req.params.id) }).populate('userowner');
+  const reclamationById = await Reclamation.find({ userowner: ObjectId(req.params.id.trim()) }).populate('userowner');
   res.json(reclamationById);
 };
 
